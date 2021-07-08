@@ -1,0 +1,47 @@
+<p>admin-accueil works!</p>
+
+<button 
+    type="submit"
+    (click)="Logout()">
+    Logout
+</button>
+<br>
+<button
+    type="submit"
+    (click)="Shop()">
+    Magasin
+</button>
+<br>
+<br>
+<button
+    type="button" 
+    (click)="AddQuest()">
+    Crée une quête
+</button>
+<br>
+<br>
+<button
+    type="button" 
+    (click)="UserQuest()">
+    Quête des eleves
+</button>
+
+<br>
+<br>
+<div *ngFor="let quest of quests">
+    <h3>{{quest.name}}</h3>
+    <p>{{quest.description}}</p>
+    <p>{{quest.status}}</p>
+    <p>{{quest.credit}}</p>
+    <button
+        type="button" 
+        (click)="ModifQuest(quest._id)">
+        Modifier 
+    </button>
+    <button
+        type="button" 
+        (click)="DeleteQuest(quest._id)">
+        Supprimer 
+    </button>
+    <br>
+</div> 
