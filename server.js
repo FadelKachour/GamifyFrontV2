@@ -1,21 +1,19 @@
+function requireHTTPS(req, res, next) {
+    // The 'x-forwarded-proto' check is for Heroku
+    if (!req.secure && req.get('x-forwarded-proto') !== 'https') {
+        return res.redirect('https://' + req.get('host') + req.url);
+    }
+    next();
+}
+
 const express = require('express');
 const app = express();
-const path = require('path');
-const port = process.env.PORT || 4200;
-const server = require('http').Server(app);
 
+app.use(requireHTTPS);
+app.use(express.static('./dist/game-estiam-hackaton'));
 
-// Serve only the static files form the angularapp directory
-app.use(express.static(__dirname + '/game-estiam-hackaton'));
- 
-app.get('/*', function(req,res) {
- 
-res.sendFile(path.join(__dirname+'/game-estiam-hackaton/index.html'));
-});
- 
-// Start the app by listening on the default Heroku port
+app.get('/*', (req, res) =>
+    res.sendFile('index.html', {root: 'dist/game-estiam-hackaton/'}),
+);
 
-
-server.listen(port, function () {
-    console.log("App running on port " + port);
-})
+app.listen(process.env.PORT || 8080);
